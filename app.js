@@ -10,6 +10,97 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+//Test 
+const jeff = new Manager("Jeff", 4, "jeff@email.com", 12);
+const eric = new Engineer("Eric", 123, "eric@gmail.com", "github.com/eric");
+const lisa = new Intern("Lisa", 2323, "lisa@intern.com", "University of Arizona")
+
+const managerQuestions = [{
+    type: "input",
+    name: "name",
+    message: "Please enter the name of the manager"
+},
+{
+    type: "input",
+    name: "id",
+    message: "Please enter the manager's id"
+},
+{
+    type: "input",
+    name: "email",
+    message: "Please enter the manager's email address"
+},
+{
+    type: "input",
+    name: "roomNumber",
+    message: "Please enter the room number of this manager"
+}
+];
+
+const engineerQuestions = [{
+    type: "input",
+    name: "name",
+    message: "Please enter the name of the engineer",
+},
+{
+    type: "input",
+    name: "id",
+    message: "Please enter the engineer's id",
+},
+{
+    type: "input",
+    name: "email",
+    message: "Please enter the engineer's email address",
+},
+{
+    type: "input",
+    name: "github",
+    message: "Please enter the engineer's github url",
+}
+];
+
+const internQuestions = [{
+    type: "input",
+    name: "name",
+    message: "Please enter the name of the intern",
+},
+{
+    type: "input",
+    name: "id",
+    message: "Please enter the intern's id",
+},
+{
+    type: "input",
+    name: "email",
+    message: "Please enter the intern's email address",
+},
+{
+    type: "input",
+    name: "roomNumber",
+    message: "Please enter the school of this intern",
+}
+];
+
+const chooseEmployeeType = [{
+        type: "list",
+        name: "id",
+        message: "What type of employee would you like to Input",
+        choices: [
+            "Manager",
+            "Engineer",
+            "Intern",
+            "Exit Employee Input"
+        ],
+}];
+
+inquirer
+.prompt(chooseEmployeeType)
+
+const employeeArray = [];
+
+// const html = render(employeeArray);
+
+fs.writeFile("team.html", html, (err) => err ? console.log(err) : console.log("Success!"));
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)

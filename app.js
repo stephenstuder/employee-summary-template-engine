@@ -10,10 +10,6 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-//Test 
-const jeff = new Manager("Jeff", 4, "jeff@email.com", 12);
-const eric = new Engineer("Eric", 123, "eric@gmail.com", "github.com/eric");
-const lisa = new Intern("Lisa", 2323, "lisa@intern.com", "University of Arizona")
 
 const managerQuestions = [{
     type: "input",
@@ -76,51 +72,60 @@ const internQuestions = [{
 },
 {
     type: "input",
-    name: "roomNumber",
+    name: "school",
     message: "Please enter the school of this intern",
 }
 ];
 
 const chooseEmployeeType = [{
-        type: "list",
-        name: "id",
-        message: "What type of employee would you like to Input",
-        choices: [
-            "Manager",
-            "Engineer",
-            "Intern",
-            "Exit Employee Input"
-        ],
+    type: "list",
+    name: "type",
+    message: "What type of employee would you like to Input",
+    choices: [
+        "Manager",
+        "Engineer",
+        "Intern",
+        "Exit Employee Input"
+    ],
 }];
 
-inquirer
-.prompt(chooseEmployeeType)
+function createManager(employeeData) {
+    let employeeIdentifier = employeeData.id;
+    return employeeIdentifier = new Manager(employeeData.name, employeeData.id, employeeData.email, employeeData.roomNumber);
+}
+function createEngineer(employeeData) {
+    let employeeIdentifier = employeeData.id;
+    return employeeIdentifier = new Engineer(employeeData.name, employeeData.id, employeeData.email, employeeData.github);
+}
+function createIntern(employeeData) {
+    let employeeIdentifier = employeeData.id;
+    return employeeIdentifier = new Intern(employeeData.name, employeeData.id, employeeData.email, employeeData.school);
+}
 
 const employeeArray = [];
 
-// const html = render(employeeArray);
+async function main() {
+    let employeeType = await inquirer.prompt(chooseEmployeeType);
+    let employee;
+    while (employeeType != "Exit Employee Input") {
+        if (employeeType.type === "Manager") {
+            employee = await inquirer.prompt(managerQuestions);
+            employeeArray.push(createManager(employee));
+            employeeType = await inquirer.prompt(chooseEmployeeType);
+        } else if (employeeType.type === "Engineer") {
+            employee = await inquirer.prompt(engineerQuestions);
+            employeeArray.push(createEngineer(employee));
+            employeeType = await inquirer.prompt(chooseEmployeeType);
+        } else if (employeeType.type === "Intern") {
+            employee = await inquirer.prompt(internQuestions);
+            employeeArray.push(createIntern(employee));
+            employeeType = await inquirer.prompt(chooseEmployeeType);
+        } else if (employeeType.type = "Exit Employee Input") {
+            const html = render(employeeArray);
+            fs.writeFile("team.html", html, (err) => err ? console.log(err) : console.log("Success!"));
+            return;
+        }
+    }
+}
 
-fs.writeFile("team.html", html, (err) => err ? console.log(err) : console.log("Success!"));
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+main();

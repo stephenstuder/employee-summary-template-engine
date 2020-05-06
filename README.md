@@ -1,4 +1,4 @@
-<img src="./assets/screenshot.PNG" alt="html image" width="500"/>
+<img src="./assets/screenshot.png" alt="html image" width="500"/>
 
 # Employee-Summary-Template-Engine
 

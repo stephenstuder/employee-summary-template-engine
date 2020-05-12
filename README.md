@@ -2,6 +2,9 @@
 
 # Employee-Summary-Template-Engine
 
+## Video Demo
+https://youtu.be/WnZGiQwKYVk
+
 ## Description
 Node CLI template generator that takes in employee data and produces a website of employee's.
 
